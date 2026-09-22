@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>T05 · 대화가 끊겨도 이어지는 프로젝트</title>
+<style>
+:root{--bg:#f5f6f8;--card:#fff;--text:#17191c;--muted:#69707a;--line:#e3e6ea;--ok:#087a55;--accent:#335cff}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Noto Sans KR",sans-serif;line-height:1.6}.wrap{max-width:980px;margin:auto;padding:42px 20px 70px}h1{font-size:32px;margin:0 0 8px}.lead{color:var(--muted);margin:0 0 26px}.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px;margin:14px 0}h2{font-size:20px;margin:0 0 14px}h3{font-size:16px;margin:20px 0 8px}.pill{display:inline-block;padding:4px 9px;border-radius:999px;background:#eaf8f2;color:var(--ok);font-weight:700;font-size:13px}.flow{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.step{padding:9px 12px;border:1px solid var(--line);border-radius:10px;background:#fafafa}.arrow{color:var(--muted)}table{width:100%;border-collapse:collapse;font-size:14px}th,td{border-bottom:1px solid var(--line);padding:10px;text-align:left;vertical-align:top}th{background:#fafafa}.ok{color:var(--ok);font-weight:700}.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.note{padding:12px 14px;background:#f7f8ff;border-left:4px solid var(--accent);border-radius:8px}.muted{color:var(--muted);font-size:13px}code{background:#f1f3f5;padding:2px 5px;border-radius:5px}a.btn{display:inline-block;padding:10px 14px;border-radius:10px;background:#17191c;color:#fff;text-decoration:none;margin-right:8px}@media(max-width:700px){.grid{grid-template-columns:1fr}h1{font-size:26px}.wrap{padding-top:25px}}
+</style></head><body><main class="wrap">
+<h1>대화가 끊겨도 이어지는 프로젝트</h1>
+<p class="lead">과제 3 ‘짤·카드 스튜디오’의 작은 개선을 두 AI 세션이 저장소와 인수인계 문서만으로 이어서 검증한 비교 보고서</p>
+
+<section class="card"><h2>1. 개선 기능과 고정 조건</h2>
+<p><b>개선 기능:</b> 문구 입력란 아래에 <code>현재 글자 수 / 200자</code>를 실시간 표시하고, 200자 초과 시 권장 기준 초과 경고를 표시한다. 200자를 넘어도 입력과 Canvas 미리보기는 계속 동작한다.</p>
+<div class="grid"><div><b>공통 시간 상한</b><br>AI별 최대 30분</div><div><b>공통 요청/호출 상한</b><br>AI별 최대 10회</div></div>
+<p class="muted">고정 검사 삭제 0건 · 완화 0건 · 기대값 변경 0건</p></section>
+
+<section class="card"><h2>2. A → 인계 → B 작업 순서</h2><div class="flow">
+<span class="step">A 시작<br><small>14:40</small></span><span class="arrow">→</span><span class="step">A 종료·인수인계<br><small>14:46</small></span><span class="arrow">→</span><span class="step">B 시작<br><small>15:00</small></span><span class="arrow">→</span><span class="step">B 완료<br><small>15:09:44</small></span></div>
+<p><span class="pill">순서 충족</span> AI B는 AI A가 남긴 소스와 HANDOFF를 기준으로 동일한 검사를 재현했다.</p></section>
+
+<section class="card"><h2>3. 고정 검사 10개</h2><table><thead><tr><th>ID</th><th>입력</th><th>관찰 가능한 기대값</th></tr></thead><tbody>
+<tr><td>T05-01</td><td><code>안녕하세요</code></td><td><code>5 / 200자</code></td></tr>
+<tr><td>T05-02</td><td>빈 문구</td><td><code>0 / 200자</code></td></tr>
+<tr><td>T05-03</td><td>정확히 200자</td><td><code>200 / 200자</code>, 경고 없음</td></tr>
+<tr><td>T05-04</td><td>정확히 201자</td><td><code>201 / 200자</code>, 초과 경고</td></tr>
+<tr><td>T05-05</td><td>201자 → 100자</td><td><code>100 / 200자</code>, 경고 해제</td></tr>
+<tr><td>T05-06</td><td><code>가A1</code></td><td><code>3 / 200자</code></td></tr>
+<tr><td>T05-07</td><td><code>😀😀</code></td><td>사용자 인식 기준 <code>2 / 200자</code></td></tr>
+<tr><td>T05-08</td><td><code>ABC↵DEF</code></td><td>줄바꿈 포함 <code>7 / 200자</code></td></tr>
+<tr><td>T05-09</td><td>문구 입력 후 화면비 변경</td><td>문구와 글자 수 유지</td></tr>
+<tr><td>T05-10</td><td>201자 이상 입력</td><td>경고 중에도 실시간 Canvas 미리보기 정상 갱신</td></tr>
+</tbody></table></section>
+
+<section class="card"><h2>4. 이름을 가린 측정 비교</h2><table><thead><tr><th>측정 항목</th><th>도구 X</th><th>도구 Y</th></tr></thead><tbody>
+<tr><td>실제 작업시간</td><td>약 6분</td><td>약 10분</td></tr>
+<tr><td>요청/호출 수</td><td>1회</td><td>1회</td></tr>
+<tr><td>오류 회차 수</td><td>0회</td><td>0회</td></tr>
+<tr><td>고정 검사 통과 수</td><td class="ok">10/10</td><td class="ok">10/10</td></tr>
+<tr><td>시작 버전 ID</td><td>START-T05-A-01</td><td>START-T05-B-01</td></tr>
+<tr><td>종료 버전 ID</td><td>END-T05-A-01</td><td>END-T05-B-01</td></tr>
+</tbody></table><p class="muted">오류 회차는 고정 검사 10개 중 하나 이상 FAIL이 나온 검사 실행 회차 수로 집계했다. 재작업량은 제출 뒤 고정 소스 버전 쌍으로 채점기가 계산하도록 수기 입력하지 않았다.</p></section>
+
+<section class="card"><h2>5. 인수인계 7항목</h2><table><tbody>
+<tr><td>1. 목표</td><td class="ok">기록됨</td></tr><tr><td>2. 현재 상태</td><td class="ok">기록됨</td></tr><tr><td>3. 실행 명령</td><td class="ok">기록됨</td></tr><tr><td>4. 통과 검사</td><td class="ok">T05-01~10 기록</td></tr><tr><td>5. 남은 문제</td><td class="ok">없음으로 기록</td></tr><tr><td>6. 다음 행동</td><td class="ok">동일 10개 검사 재검증</td></tr><tr><td>7. 건드리지 말 것</td><td class="ok">기존 핵심 기능 보호 범위 기록</td></tr>
+</tbody></table></section>
+
+<section class="card"><h2>6. 소스 고정 및 검증</h2>
+<p><b>A 시작 원본 SHA-256</b><br><code>94c1173dd73dbe67567d778501354852286a383cfb0b0d90ab357d67a0f56826</code></p>
+<p><b>B 검증/최종 SHA-256</b><br><code>36a6bc872ef5f57a1121f5d0b90680717f2a464c981e0c8430dad826f635d48b</code></p>
+<p>B 검증에서 JavaScript page error는 0건이었으며 T05-01~T05-10은 10/10 PASS였다.</p></section>
+
+<section class="card"><h2>7. 짧은 확인 방법 4줄</h2>
+<p><b>① 어디로 가나요:</b> 공개된 짤·카드 스튜디오의 문구 입력 영역으로 이동합니다.<br>
+<b>② 3단계 이내 무엇을 하나요:</b> 문구에 <code>😀😀</code>를 입력하고, 이어서 201자 이상의 문구를 입력합니다.<br>
+<b>③ 무엇이 보이면 통과인가요:</b> 이모지는 <code>2 / 200자</code>로 계산되고 201자부터 권장 초과 경고가 보이면서 미리보기는 계속 갱신됩니다.<br>
+<b>④ 안 될 때 무엇이 보이나요:</b> 이모지가 4자로 계산되거나, 201자 입력이 막히거나, 경고/미리보기 중 하나가 갱신되지 않습니다.</p></section>
+
+<section class="card"><h2>8. AI와 나의 판단 3줄</h2>
+<p><b>AI에게 맡긴 일:</b> 기존 소스 분석, 글자 수 카운터 구현, 동일한 고정 검사 10개 실행 및 인수인계/검증 문서 작성을 맡겼습니다.<br>
+<b>직접 판단한 일:</b> 이전 과제 3을 기반으로 두 AI 세션을 분리하고, 같은 검사와 공통 상한을 유지한 채 A → 인수인계 → B 순서로 진행했습니다.<br>
+<b>AI 제안을 따르지 않은 일:</b> 별도로 배제한 구현 제안은 없었으며, 기존 기능을 건드리지 않고 고정 검사를 변경하지 않는 범위의 제안만 사용했습니다.</p></section>
+
+<section class="card"><h2>9. 다음 작업의 도구 선택 기준</h2><div class="note">같은 고정 검사를 기준으로 통과 수와 오류 회차를 먼저 보고, 결과가 같다면 요청 수와 실제 작업시간이 더 적은 도구를 우선 선택한다.</div></section>
+
+<section class="card"><h2>10. 제출 링크</h2>
+<p><b>결과물 주소:</b> <span class="muted">배포 후 공개 comparison_report.html URL 입력</span><br><b>소스 주소:</b> <span class="muted">배포 후 공개 저장소 URL 입력</span></p>
+<p><a class="btn" href="index.html">완성된 짤·카드 스튜디오 열기</a></p>
+<p class="muted">제출 전 새 시크릿 창에서 결과물 주소와 소스 주소가 로그인·초대·비밀번호 없이 열리는지 확인한다.</p></section>
+</main></body></html>

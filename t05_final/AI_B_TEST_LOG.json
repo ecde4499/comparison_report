@@ -1,0 +1,55 @@
+{
+  "results": [
+    {
+      "id": "T05-01",
+      "status": "PASS",
+      "detail": "표시=5 / 200자"
+    },
+    {
+      "id": "T05-02",
+      "status": "PASS",
+      "detail": "표시=0 / 200자"
+    },
+    {
+      "id": "T05-03",
+      "status": "PASS",
+      "detail": "표시=200 / 200자, class=char-count-wrap"
+    },
+    {
+      "id": "T05-04",
+      "status": "PASS",
+      "detail": "표시=201 / 200자 (권장 초과), class=char-count-wrap warning"
+    },
+    {
+      "id": "T05-05",
+      "status": "PASS",
+      "detail": "표시=100 / 200자, class=char-count-wrap"
+    },
+    {
+      "id": "T05-06",
+      "status": "PASS",
+      "detail": "표시=3 / 200자"
+    },
+    {
+      "id": "T05-07",
+      "status": "PASS",
+      "detail": "표시=2 / 200자"
+    },
+    {
+      "id": "T05-08",
+      "status": "PASS",
+      "detail": "표시=7 / 200자"
+    },
+    {
+      "id": "T05-09",
+      "status": "PASS",
+      "detail": "문구='비율 유지 테스트😀', 글자수=10 / 200자, dims=['900 × 900px · 1:1', '900 × 1125px · 4:5', '900 × 1600px · 9:16']"
+    },
+    {
+      "id": "T05-10",
+      "status": "PASS",
+      "detail": "canvas변경=True, 입력길이=201, 표시=201 / 200자 (권장 초과), JS오류=[]"
+    }
+  ],
+  "page_errors": []
+}
